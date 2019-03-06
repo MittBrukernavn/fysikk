@@ -19,7 +19,6 @@ def simulate(time_interval, dt, x0, v0, k=0.0):
         x[i+1] = x[i] + vx*dt
         y[i+1] = get_y(p, x[i+1])
         t[i+1] = t[i] + dt
-    plt.plot(t, x)
     # eksempelplot:
     m = 958
     t_192 = np.zeros(m)
@@ -33,7 +32,8 @@ def simulate(time_interval, dt, x0, v0, k=0.0):
             parsedLine = line.replace(',', '.').split('\t')
             t_192[i], x_192[i], y_192[i] = float(parsedLine[0]), float(parsedLine[1]), float(parsedLine[2][:-1])
             i += 1
-    plt.plot(t_192, x_192)
+    plt.plot(t, y)
+    plt.plot(t_192, y_192)
     plt.xlabel('t')
     plt.ylabel('x')
     plt.grid()
@@ -84,6 +84,6 @@ def plot_bane(filename, minx, maxx, step):
     plt.show()
 
 
-simulate(10, 0.01, -0.585, 0, 0.1)
+simulate(9.57, 0.01, -0.585, 0, 0.05)
 # blå er numerisk, oransje er autotracket
 # plot_bane("banetrack.txt", -0.7, 0.7, 0.01)
