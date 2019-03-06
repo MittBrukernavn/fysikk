@@ -14,8 +14,8 @@ def simulate(time_interval, dt, x0, v0, k=0.0):
     x[0] = x0
     y[0] = get_y(p, x[0])
     for i in range(n):
-        ax = calculate_acceleration(p, x[i])
-        vx += ax*dt - k*vx*dt
+        ax = calculate_acceleration(p, x[i], vx, k)
+        vx += ax*dt
         x[i+1] = x[i] + vx*dt
         y[i+1] = get_y(p, x[i+1])
         t[i+1] = t[i] + dt
@@ -32,10 +32,18 @@ def simulate(time_interval, dt, x0, v0, k=0.0):
             parsedLine = line.replace(',', '.').split('\t')
             t_192[i], x_192[i], y_192[i] = float(parsedLine[0]), float(parsedLine[1]), float(parsedLine[2][:-1])
             i += 1
+    plt.plot(t, x)
+    plt.plot(t_192, x_192)
+    plt.xlabel('t')
+    plt.ylabel('x')
+    plt.title('x(t)')
+    plt.grid()
+    plt.show()
     plt.plot(t, y)
     plt.plot(t_192, y_192)
     plt.xlabel('t')
-    plt.ylabel('x')
+    plt.ylabel('y')
+    plt.title('y(t)')
     plt.grid()
     plt.show()
 
@@ -64,9 +72,9 @@ def iptrack(filename):
     return np.polyfit(data[:,1],data[:,2],15)
 
 
-def calculate_acceleration(p, x):
+def calculate_acceleration(p, x, vx, k):
     g = 9.81
-    a = g*np.sin(alpha(p, x))*5/7
+    a = g*np.sin(alpha(p, x))*5/7 - k*vx
     return a
 
 
