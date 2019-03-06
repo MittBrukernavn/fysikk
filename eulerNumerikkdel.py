@@ -3,8 +3,8 @@ import numpy as np
 from math import ceil
 
 
-def simulate(time_interval, dt, x0, v0, k=0):
-    filename = "FUCK.txt"
+def simulate(time_interval, dt, x0, v0, k=0.0):
+    filename = "banetrack.txt"
     p = iptrack(filename)
     n = ceil(time_interval/dt)
     x = np.zeros(n + 1)
@@ -20,6 +20,20 @@ def simulate(time_interval, dt, x0, v0, k=0):
         y[i+1] = get_y(p, x[i+1])
         t[i+1] = t[i] + dt
     plt.plot(t, x)
+    # eksempelplot:
+    m = 958
+    t_192 = np.zeros(m)
+    x_192 = np.zeros(m)
+    y_192 = np.zeros(m)
+    with open('192-autotrack.txt') as f:
+        for _ in range(2):
+            next(f)
+        i = 0
+        for line in f:
+            parsedLine = line.replace(',', '.').split('\t')
+            t_192[i], x_192[i], y_192[i] = float(parsedLine[0]), float(parsedLine[1]), float(parsedLine[2][:-1])
+            i += 1
+    plt.plot(t_192, x_192)
     plt.xlabel('t')
     plt.ylabel('x')
     plt.grid()
@@ -70,5 +84,6 @@ def plot_bane(filename, minx, maxx, step):
     plt.show()
 
 
-#simulate(10, 0.01, 0.4, 0, 0.2)
-plot_bane("FUCK.txt", -0.7, 0.7, 0.01)
+simulate(10, 0.01, -0.585, 0, 0.1)
+# blå er numerisk, oransje er autotracket
+# plot_bane("banetrack.txt", -0.7, 0.7, 0.01)
