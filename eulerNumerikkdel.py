@@ -20,18 +20,8 @@ def simulate(time_interval, dt, x0, v0, k=0.0):
         y[i+1] = get_y(p, x[i+1])
         t[i+1] = t[i] + dt
     # eksempelplot:
-    m = 958
-    t_192 = np.zeros(m)
-    x_192 = np.zeros(m)
-    y_192 = np.zeros(m)
-    with open('192-autotrack.txt') as f:
-        for _ in range(2):
-            next(f)
-        i = 0
-        for line in f:
-            parsedLine = line.replace(',', '.').split('\t')
-            t_192[i], x_192[i], y_192[i] = float(parsedLine[0]), float(parsedLine[1]), float(parsedLine[2][:-1])
-            i += 1
+    # m = 958
+    t_192, x_192, y_192 = parse_track('192-autotrack.txt')
     plt.plot(t, x)
     plt.plot(t_192, x_192)
     plt.xlabel('t')
@@ -47,6 +37,22 @@ def simulate(time_interval, dt, x0, v0, k=0.0):
     plt.grid()
     plt.show()
 
+
+def parse_track(filename):
+    t_slow = []
+    x_slow = []
+    y_slow = []
+    with open(filename) as f:
+        for _ in range(2):
+            next(f)
+        i = 0
+        for line in f:
+            parsedLine = line.replace(',', '.').split('\t')
+            t_slow.append(float(parsedLine[0]))
+            x_slow.append(float(parsedLine[1]))
+            y_slow.append(float(parsedLine[2][:-1]))
+            i += 1
+    return np.array(t_slow), np.array(x_slow), np.array(y_slow)
 
 def trvalues(p, x):
     y = np.polyval(p, x)
