@@ -7,11 +7,11 @@ class DataPoint:
         self.t = t
 
 
-def create_data_table(fileNames):
+def create_data_table(folder, fileNames):
     data_table = []
     for filename in fileNames:
         points = []
-        with open(filename) as f:
+        with open(folder+'/'+filename) as f:
             for line in f.readlines()[2:]:
                 t, x, y = line.replace(',', '.').split('\t')
                 points.append(DataPoint(float(y), float(t)))
@@ -32,6 +32,7 @@ def gamma_estimates(data_table):
         variances[i] = np.var(wip, ddof=1)
     return estimates, variances
 
+
 def refined_estimate(estimates, variances):
     refined_average = np.average(estimates)
     refined_variance = np.sum(variances)/(variances.size**2)
@@ -41,10 +42,12 @@ def refined_estimate(estimates, variances):
 def sd(var):
     return np.sqrt(var)
 
+
 def stderr(var, n):
     return np.sqrt(var/n)
 
-data = create_data_table(['P1120186.txt', 'P1120191.txt', 'P1120192.txt'])
+
+data = create_data_table('data', ['P1120186.txt', 'P1120191.txt', 'P1120192.txt', '183.txt', '184.txt', '185.txt'])
 estimates, variances = gamma_estimates(data)
 print('Averages:', estimates, '\nVariances:', variances)
 refined_avg, refined_var = refined_estimate(estimates, variances)
