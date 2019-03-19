@@ -52,7 +52,7 @@ def stderr(var, n):
 
 
 def plotData(dataset):
-    plt.plot(dataset)
+    plt.plot(dataset, 'ro')
     plt.show()
 
 data = create_data_table('data', ['P1120186.txt', 'P1120191.txt', 'P1120192.txt', '183.txt', '184.txt', '185.txt',
