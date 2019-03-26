@@ -47,6 +47,8 @@ def stderr(var, n):
 def plotData(dataset):
     plt.plot(dataset, 'ro')
     plt.ylim(0, 0.2)
+    plt.xlabel('Måling nr')
+    plt.ylabel('Målt verdi / s^(-1)')
     plt.show()
 
 
