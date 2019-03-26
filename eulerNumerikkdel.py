@@ -22,19 +22,13 @@ def simulate(time_interval, dt, x0, v0, k=0.0):
     # eksempelplot:
     # m = 958
     t_192, x_192, y_192 = parse_track('192-autotrack.txt')
-    plt.plot(t, x)
-    plt.plot(t_192, x_192)
-    plt.xlabel('t')
-    plt.ylabel('x')
-    plt.title('x(t)')
-    plt.grid()
-    plt.show()
-    plt.plot(t, y)
-    plt.plot(t_192, y_192)
-    plt.xlabel('t')
-    plt.ylabel('y')
-    plt.title('y(t)')
-    plt.grid()
+    f, (xplot, yplot) = plt.subplots(2, sharex=True)
+    xplot.plot(t, x)
+    xplot.plot(t_192, x_192)
+    xplot.set_title('x(t)')
+    yplot.plot(t, y)
+    yplot.plot(t_192, y_192)
+    yplot.set_title('y(t)')
     plt.show()
 
 
