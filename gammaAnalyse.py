@@ -29,7 +29,8 @@ def gamma_estimates(data_table):
         for j in range(len(data_table[i])-1):
             pre = data_table[i][j]
             post = data_table[i][j+1]
-            all_g[all_index] = (pre.y - post.y)/(pre.y * (post.t - pre.t))
+            # diskretisert formel: all_g[all_index] = (pre.y - post.y)/(pre.y * (post.t - pre.t))
+            all_g[all_index] = (np.log(pre.y / post.y))/(post.t - pre.t)
             all_t[all_index] = pre.t
             all_index += 1
     return all_g, all_t
@@ -55,8 +56,9 @@ def plotData(dataset):
 
 def plot_data_over_time(gammas, times):
     slope, intercept, r_value, p_value, std_err = stats.linregress(times, gammas)
+    print("REGRESJONSANALYSE: ")
     print("Stigning:", slope, "\nSkjæringspunkt:", intercept, "\nStderr:", std_err,
-          "\nP-value given null hypothesis that slope is zero:", p_value, "\nCorr:", r_value)
+          "\nP-verdi gitt at den er konstant:", p_value, "\nCorr:", r_value)
     regtimes = np.array([0, 10])
     regvals = np.array([intercept, intercept+10*slope])
     plt.plot(times, gammas, 'ro')

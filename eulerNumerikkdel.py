@@ -12,9 +12,12 @@ def simulate(time_interval, dt, x0, k=0.0):
     t = np.zeros(n + 1)
     vx = np.zeros(n + 1)
     vy = np.zeros(n + 1)
+    f = np.zeros(n + 1)
+    N = np.zeros(n + 1)
     x[0] = x0
     y[0] = get_y(p, x[0])
     vx[0] = 0
+    f[0], N[0] = f_and_n(x[0], vx[0], calculate_acceleration(p, x[0], vx[0], k), p)
     for i in range(n):
         ax = calculate_acceleration(p, x[i], vx[i], k)
         vx[i+1] = vx[i] + ax*dt
@@ -22,10 +25,11 @@ def simulate(time_interval, dt, x0, k=0.0):
         y[i+1] = get_y(p, x[i+1])
         t[i+1] = t[i] + dt
         vy[i + 1] = compute_vy(p, vx[i + 1], x[i + 1])
+        f[i+1], N[i+1] = f_and_n(x[i+1], vx[i+1], ax, p)
     # eksempelplot:
     # m = 958
     t_192, x_192, y_192, vx_192, vy_192 = parse_track('192-autotrack.txt')
-    f, (xplot, yplot) = plt.subplots(2)
+    func_i_dont_use, (xplot, yplot) = plt.subplots(2)
     xplot.plot(t, x)
     xplot.plot(t_192, x_192)
     xplot.set_ylabel('x / m')
@@ -37,7 +41,7 @@ def simulate(time_interval, dt, x0, k=0.0):
     yplot.set_ylabel('y / m')
     yplot.set_title('y(t)')
     plt.show()
-    g, (vxplot, vyplot) = plt.subplots(2)
+    gunc_i_dont_use, (vxplot, vyplot) = plt.subplots(2)
     vxplot.set_title('vx(t)')
     vxplot.set_xlabel('t / s')
     vxplot.set_ylabel('vx / (m/s)')
@@ -49,8 +53,20 @@ def simulate(time_interval, dt, x0, k=0.0):
     vyplot.plot(t, vy)
     vyplot.plot(t_192, vy_192)
     plt.show()
+    plt.plot(t, f)
+    plt.title('friksjon')
+    plt.xlabel('tid / s')
+    plt.ylabel ('(f/m) / (m/s^2) ')
+    plt.show()
+    plt.plot(t, N)
+    plt.title('Normalkraft')
+    plt.xlabel('tid / s')
+    plt.ylabel('(N/m) / (m/s^2) ')
+    plt.show()
 
 
+def f_and_n(x, v, a, p):
+    return 9.81*np.sin(alpha(p, x)) - a, ((v**2)/R(p, x)) + 9.81*np.cos(x)
 
 def compute_vy(p, vx, x):
     dp = np.polyder(p)
@@ -99,6 +115,10 @@ def alpha(p, x):
     return trvalues(p, x)[3]
 
 
+def R(p, x):
+    return trvalues(p, x)[4]
+
+
 def iptrack(filename):
     data = np.loadtxt(filename,skiprows=2)
     return np.polyfit(data[:,1],data[:,2],15)
@@ -121,9 +141,11 @@ def plot_bane(filename, minx, maxx, step):
         x[i+1] = x[i] + step
         y[i+1] = get_y(p, x[i+1])
     plt.plot(x, y)
+    plt.ylabel('y / m')
+    plt.xlabel('x / m')
     plt.show()
 
 
 simulate(9.57, 0.01, -0.585, 0.05)
 # blå er numerisk, oransje er autotracket
-# plot_bane("banetrack.txt", -0.7, 0.7, 0.01)
+plot_bane("banetrack.txt", -0.7, 0.7, 0.01)
