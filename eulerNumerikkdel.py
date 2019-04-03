@@ -64,7 +64,7 @@ def simulate(time_interval, dt, x0, k=0.0):
     plt.xlabel('x-posisjon / m', fontsize=labelsize)
     plt.ylabel('(f/m) / (m/s^2) ', fontsize=labelsize)
     plt.show()
-    plt.plot(x, N)
+    plt.plot(x[:98], N[:98])
     plt.title('Normalakselerasjon', fontsize=titlesize)
     plt.xlabel('x-posisjon / m', fontsize=labelsize)
     plt.ylabel('(N/m) / (m/s^2)', fontsize=labelsize)
