@@ -49,8 +49,8 @@ def stderr(var, n):
 def plotData(dataset):
     plt.plot(dataset, 'ro')
     plt.ylim(0, 0.2)
-    plt.xlabel('Måling nr')
-    plt.ylabel('Målt verdi / (1/s)')
+    plt.xlabel('Måling nr', fontsize=16)
+    plt.ylabel('Målt verdi / (1/s)', fontsize=16)
     plt.show()
 
 
@@ -59,13 +59,13 @@ def plot_data_over_time(gammas, times):
     print("REGRESJONSANALYSE: ")
     print("Stigning:", slope, "\nSkjæringspunkt:", intercept, "\nStderr:", std_err,
           "\nP-verdi gitt at den er konstant:", p_value, "\nCorr:", r_value)
-    regtimes = np.array([0, 10])
-    regvals = np.array([intercept, intercept+10*slope])
+    # regtimes = np.array([0, 10])
+    # regvals = np.array([intercept, intercept+10*slope])
     plt.plot(times, gammas, 'ro')
-    plt.plot(regtimes, regvals)
+    # plt.plot(regtimes, regvals)
     plt.ylim(0, 0.2)
-    plt.xlabel('Tid / s')
-    plt.ylabel('Målt verdi / (1/s)')
+    plt.xlabel('Tid / s', fontsize=16)
+    plt.ylabel('Målt verdi / (1/s)', fontsize=16)
     plt.show()
 
 
